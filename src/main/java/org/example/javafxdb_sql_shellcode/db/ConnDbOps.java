@@ -16,10 +16,10 @@ import java.sql.Statement;
  * @author MoaathAlrajab
  */
 public class ConnDbOps {
-    final String MYSQL_SERVER_URL = "jdbc:mysql://localhost/";
-    final String DB_URL = "jdbc:mysql://localhost/DBname";
-    final String USERNAME = "admin";
-    final String PASSWORD = "password";
+    final String MYSQL_SERVER_URL = "jdbc:mysql://csc311devarajjava12.mysql.database.azure.com/";
+    final String DB_URL = MYSQL_SERVER_URL + "DBname";
+    final String USERNAME = "reapply";
+    final String PASSWORD = "gnGFVdyMCgp1ra";
     
     public  boolean connectToDatabase() {
         boolean hasRegistredUsers = false;
@@ -27,13 +27,16 @@ public class ConnDbOps {
 
         //Class.forName("com.mysql.jdbc.Driver");
         try {
+            System.out.println("Trying to connect.");
             //First, connect to MYSQL server and create the database if not created
             Connection conn = DriverManager.getConnection(MYSQL_SERVER_URL, USERNAME, PASSWORD);
+            System.out.println("Connected.");
             Statement statement = conn.createStatement();
             statement.executeUpdate("CREATE DATABASE IF NOT EXISTS DBname");
+            System.out.println("Databse created.");
             statement.close();
             conn.close();
-
+            System.out.println("Closed");
             //Second, connect to the database and create the table "users" if cot created
             conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             statement = conn.createStatement();
@@ -70,7 +73,6 @@ public class ConnDbOps {
 
     public  void queryUserByName(String name) {
 
-
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "SELECT * FROM users WHERE name = ?";
@@ -95,9 +97,6 @@ public class ConnDbOps {
     }
 
     public  void listAllUsers() {
-
-
-
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "SELECT * FROM users ";
@@ -122,8 +121,6 @@ public class ConnDbOps {
     }
 
     public  void insertUser(String name, String email, String phone, String address, String password) {
-
-
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             String sql = "INSERT INTO users (name, email, phone, address, password) VALUES (?, ?, ?, ?, ?)";
